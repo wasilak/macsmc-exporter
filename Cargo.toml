@@ -1,0 +1,19 @@
+[package]
+name = "macsmc-exporter"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+macsmc = { version = "~0" }
+tokio = { version = "1.45.1", features = ["full"] }
+axum = { version = "~0" }
+heck = { version = "~0" }
+prometheus = { version = "~0" }
+tracing = { version = "~0" }
+tracing-subscriber = { version = "~0", features = [
+    "fmt",
+    "json",
+    "std",
+    "env-filter",
+] }
+tracing-logfmt = "0.3.5"
