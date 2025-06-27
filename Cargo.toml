@@ -5,7 +5,7 @@ edition = "2024"
 
 [dependencies]
 macsmc = { version = "~0" }
-tokio = { version = "1.45.1", features = ["full"] }
+tokio = { version = "~1", features = ["full"] }
 axum = { version = "~0" }
 heck = { version = "~0" }
 prometheus = { version = "~0" }
@@ -16,4 +16,4 @@ tracing-subscriber = { version = "~0", features = [
     "std",
     "env-filter",
 ] }
-tracing-logfmt = "0.3.5"
+tracing-logfmt = { version = "~0" }
