@@ -1,7 +1,7 @@
-use macsmc::CpuTemperatures;
+use heck::ToSnakeCase;
 use prometheus::GaugeVec;
-
-use crate::libs::cpu_temperature::{SnakeCaseLabel, TemperatureUnit, TypeUnit};
+use prometheus::register_gauge_vec;
+use std::fmt::Debug;
 
 #[derive(Debug, Clone)]
 pub struct Metrics {
@@ -9,33 +9,26 @@ pub struct Metrics {
 }
 
 impl Metrics {
-    pub fn set_cpu_temp(&self, value: &CpuTemperatures) {
-        self.temperatures
-            .with_label_values(&[
-                TemperatureUnit::Celsius.as_label(),
-                TypeUnit::Proximity.as_label(),
-            ])
-            .set(Into::<f64>::into(value.proximity));
+    pub fn new() -> Self {
+        let temperatures = register_gauge_vec!(
+            "cpu_temperature",
+            "Metric for CPU temperatures",
+            &["unit", "temp_type"]
+        )
+        .unwrap();
+        Self { temperatures }
+    }
+}
 
-        self.temperatures
-            .with_label_values(&[
-                TemperatureUnit::Celsius.as_label(),
-                TypeUnit::Die.as_label(),
-            ])
-            .set(Into::<f64>::into(value.die));
+pub trait SnakeCaseLabel {
+    fn as_label(&self) -> String;
+}
 
-        self.temperatures
-            .with_label_values(&[
-                TemperatureUnit::Celsius.as_label(),
-                TypeUnit::Graphics.as_label(),
-            ])
-            .set(Into::<f64>::into(value.graphics));
-
-        self.temperatures
-            .with_label_values(&[
-                TemperatureUnit::Celsius.as_label(),
-                TypeUnit::SystemAgent.as_label(),
-            ])
-            .set(Into::<f64>::into(value.system_agent));
+impl<T> SnakeCaseLabel for T
+where
+    T: Debug,
+{
+    fn as_label(&self) -> String {
+        format!("{:?}", self).to_snake_case()
     }
 }
