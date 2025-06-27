@@ -1,5 +1,12 @@
+mod battery_detail;
+mod battery_info;
+mod cpu_core_temperatures;
+mod cpu_power;
 mod cpu_temperature;
+mod fan_speed;
+mod gpu_temperature;
 pub mod logger;
 pub mod metrics;
+mod other_temperatures;
 pub mod prometheus;
 pub mod webserver;
