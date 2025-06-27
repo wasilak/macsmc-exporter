@@ -48,6 +48,6 @@ jobs:
         uses: houseabsolute/actions-rust-release@v0
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          executable-name: cloudflare-ddns
+          executable-name: ${{ github.event.repository.name }}
           target: ${{ matrix.platform.target }}
           changes-file: ""
